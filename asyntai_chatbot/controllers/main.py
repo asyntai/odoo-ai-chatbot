@@ -35,6 +35,8 @@ import werkzeug.exceptions
 from odoo import fields, http, release
 from odoo.http import request
 
+from ..models.asyntai_chatbot import current_website, get_param, set_param
+
 _logger = logging.getLogger(__name__)
 
 # Odoo 19 renamed the JSON-RPC route type and warns about the old name on
@@ -125,11 +127,9 @@ class AsyntaiController(http.Controller):
             script_url = (script_url or '').strip()
             if not script_url.startswith(('https://', 'http://')):
                 script_url = DEFAULT_SCRIPT_URL
-
-            ICP = request.env['ir.config_parameter'].sudo()
-            ICP.set_param('asyntai_chatbot.site_id', site_id)
-            ICP.set_param('asyntai_chatbot.script_url', script_url)
-            ICP.set_param('asyntai_chatbot.account_email', (account_email or '').strip()[:255])
+            set_param(request.env, 'asyntai_chatbot.site_id', site_id)
+            set_param(request.env, 'asyntai_chatbot.script_url', script_url)
+            set_param(request.env, 'asyntai_chatbot.account_email', (account_email or '').strip()[:255])
 
             model = request.env['asyntai.chatbot'].sudo()
             model.forget('state')
@@ -154,11 +154,9 @@ class AsyntaiController(http.Controller):
         try:
             if not _is_admin():
                 return {'success': False, 'error': 'Access denied'}
-
-            ICP = request.env['ir.config_parameter'].sudo()
-            ICP.set_param('asyntai_chatbot.site_id', '')
-            ICP.set_param('asyntai_chatbot.script_url', DEFAULT_SCRIPT_URL)
-            ICP.set_param('asyntai_chatbot.account_email', '')
+            set_param(request.env, 'asyntai_chatbot.site_id', '')
+            set_param(request.env, 'asyntai_chatbot.script_url', DEFAULT_SCRIPT_URL)
+            set_param(request.env, 'asyntai_chatbot.account_email', '')
 
             model = request.env['asyntai.chatbot'].sudo()
             for key in ('feed_token', 'share', 'state', 'state_at'):
@@ -175,16 +173,13 @@ class AsyntaiController(http.Controller):
         try:
             if not _is_admin():
                 return {'success': False, 'error': 'Access denied'}
-
-            ICP = request.env['ir.config_parameter'].sudo()
-            site_id = ICP.get_param('asyntai_chatbot.site_id', default='')
+            site_id = get_param(request.env, 'asyntai_chatbot.site_id', '')
             return {
                 'success': True,
                 'data': {
                     'site_id': site_id,
-                    'script_url': ICP.get_param('asyntai_chatbot.script_url',
-                                                default=DEFAULT_SCRIPT_URL),
-                    'account_email': ICP.get_param('asyntai_chatbot.account_email', default=''),
+                    'script_url': get_param(request.env, 'asyntai_chatbot.script_url', DEFAULT_SCRIPT_URL),
+                    'account_email': get_param(request.env, 'asyntai_chatbot.account_email', ''),
                     'connected': bool(site_id),
                 },
             }
@@ -424,7 +419,7 @@ class AsyntaiController(http.Controller):
             return refused
 
         model = request.env['asyntai.chatbot'].sudo()
-        website = request.env['website'].get_current_website()
+        website = current_website(request.env)
         store = self._store(website)
         empty = {'ok': True, 'store': store, 'page': 1, 'pages': 1,
                  'total': 0, 'products': []}
@@ -604,7 +599,7 @@ class AsyntaiController(http.Controller):
             return refused
 
         model = request.env['asyntai.chatbot'].sudo()
-        website = request.env['website'].get_current_website()
+        website = current_website(request.env)
         store = self._store(website)
         empty = {'ok': True, 'store': store, 'page': 1, 'pages': 1,
                  'total': 0, 'items': []}
@@ -654,8 +649,9 @@ class AsyntaiController(http.Controller):
         chosen = {}
         for page in rows:
             # Pages for signed-in users, for a group, or behind a password
-            # are not public, so they are never sent.
-            if getattr(page, 'visibility', False):
+            # are not public, so they are never sent. A public page has an
+            # empty visibility up to Odoo 19 and 'public' from Odoo 20.
+            if getattr(page, 'visibility', False) not in (False, '', None, 'public'):
                 continue
             # A page the owner keeps out of search engines (a thank-you
             # page after a form, for example) is kept out of here as well.

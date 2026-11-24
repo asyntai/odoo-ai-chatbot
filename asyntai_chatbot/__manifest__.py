@@ -5,7 +5,7 @@
 
 {
     'name': 'Asyntai - AI Chatbot',
-    'version': '19.0.1.1.1',
+    'version': '20.0.1.1.1',
     'category': 'Website',
     'summary': 'AI assistant / chatbot – Provides instant answers to your website visitors',
     'description': """
@@ -43,7 +43,7 @@ switch sharing off on the settings screen at any time.
     'license': 'LGPL-3',
     'depends': ['base', 'website'],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/menu_views.xml',
         'views/res_config_settings_views.xml',
         'views/website_templates.xml',

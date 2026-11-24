@@ -26,6 +26,47 @@ from odoo.tools import sql as sql_tools
 _logger = logging.getLogger(__name__)
 
 DEFAULT_ORIGIN = 'https://asyntai.com'
+DEFAULT_SCRIPT_URL = 'https://asyntai.com/static/js/chat-widget.js'
+
+
+def get_param(env, key, default=''):
+    """A system parameter as a string, on every Odoo version.
+
+    Odoo 20 replaced get_param with typed getters (get_str and friends).
+    """
+    params = env['ir.config_parameter'].sudo()
+    if hasattr(params, 'get_str'):
+        value = params.get_str(key, default)
+    else:
+        value = params.get_param(key, default)
+    return value if isinstance(value, str) else default
+
+
+def set_param(env, key, value):
+    """Store a system parameter as a string, on every Odoo version."""
+    params = env['ir.config_parameter'].sudo()
+    if hasattr(params, 'set_str'):
+        params.set_str(key, value)
+    else:
+        params.set_param(key, value)
+
+
+def current_website(env):
+    """The website a request is for, on every Odoo version.
+
+    Odoo 20 removed website.get_current_website(); the website is now
+    env.website, which is empty outside a website request (the settings
+    screen, a cron). Then the first website is used, as older Odoo did.
+    """
+    Website = env['website']
+    if hasattr(Website, 'get_current_website'):
+        return Website.get_current_website()
+    website = getattr(env, 'website', None) or Website.browse()
+    if not website and env.context.get('host_id'):
+        website = Website.browse(env.context['host_id'])
+    if not website:
+        website = Website.sudo().search([], limit=1)
+    return website
 
 
 class AsyntaiChatbotState(models.Model):
@@ -74,8 +115,15 @@ class AsyntaiChatbot(models.AbstractModel):
 
     @api.model
     def _param(self, key, default=''):
-        value = self.env['ir.config_parameter'].sudo().get_param(key, default)
-        return value if isinstance(value, str) else default
+        return get_param(self.env, key, default)
+
+    @api.model
+    def widget_config(self):
+        """What the website template needs to load the chat widget."""
+        return {
+            'site_id': self._param('asyntai_chatbot.site_id', '').strip(),
+            'script_url': self._param('asyntai_chatbot.script_url', '') or DEFAULT_SCRIPT_URL,
+        }
 
     @api.model
     def get(self, key, default=''):
@@ -122,7 +170,7 @@ class AsyntaiChatbot(models.AbstractModel):
         The website's own domain when the owner set one, otherwise the address
         Odoo last saw itself at. Both are what a visitor would type.
         """
-        website = self.env['website'].get_current_website()
+        website = current_website(self.env)
         domain = (website.domain or '').strip().rstrip('/')
         if domain and not domain.startswith('http'):
             domain = 'https://' + domain

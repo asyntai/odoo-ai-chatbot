@@ -5,6 +5,8 @@
 
 from odoo import api, fields, models
 
+from .asyntai_chatbot import get_param, set_param
+
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -29,17 +31,15 @@ class ResConfigSettings(models.TransientModel):
     @api.model
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
-        ICP = self.env['ir.config_parameter'].sudo()
         res.update(
-            asyntai_site_id=ICP.get_param('asyntai_chatbot.site_id', default=''),
-            asyntai_script_url=ICP.get_param('asyntai_chatbot.script_url', default='https://asyntai.com/static/js/chat-widget.js'),
-            asyntai_account_email=ICP.get_param('asyntai_chatbot.account_email', default=''),
+            asyntai_site_id=get_param(self.env, 'asyntai_chatbot.site_id', ''),
+            asyntai_script_url=get_param(self.env, 'asyntai_chatbot.script_url', 'https://asyntai.com/static/js/chat-widget.js'),
+            asyntai_account_email=get_param(self.env, 'asyntai_chatbot.account_email', ''),
         )
         return res
 
     def set_values(self):
         super(ResConfigSettings, self).set_values()
-        ICP = self.env['ir.config_parameter'].sudo()
-        ICP.set_param('asyntai_chatbot.site_id', self.asyntai_site_id or '')
-        ICP.set_param('asyntai_chatbot.script_url', self.asyntai_script_url or 'https://asyntai.com/static/js/chat-widget.js')
-        ICP.set_param('asyntai_chatbot.account_email', self.asyntai_account_email or '')
+        set_param(self.env, 'asyntai_chatbot.site_id', self.asyntai_site_id or '')
+        set_param(self.env, 'asyntai_chatbot.script_url', self.asyntai_script_url or 'https://asyntai.com/static/js/chat-widget.js')
+        set_param(self.env, 'asyntai_chatbot.account_email', self.asyntai_account_email or '')
