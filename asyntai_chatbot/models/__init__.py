@@ -4,3 +4,4 @@
 # License: MIT License
 
 from . import res_config_settings
+from . import asyntai_chatbot
