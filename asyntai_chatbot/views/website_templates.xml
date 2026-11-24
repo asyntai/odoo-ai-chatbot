@@ -6,7 +6,10 @@
             <t t-set="asyntai_site_id" t-value="request.env['ir.config_parameter'].sudo().get_param('asyntai_chatbot.site_id', '')"/>
             <t t-set="asyntai_script_url" t-value="request.env['ir.config_parameter'].sudo().get_param('asyntai_chatbot.script_url', 'https://asyntai.com/static/js/chat-widget.js')"/>
             <t t-if="asyntai_site_id">
-                <script t-att-src="asyntai_script_url" async="async" defer="defer" t-att-data-asyntai-id="asyntai_site_id"/>
+                <!-- Inject the widget script only after the page's load event: an
+                     async script tag still holds the load event open until its fetch
+                     times out, so an unreachable Asyntai server would delay the page. -->
+                <script t-att-data-asyntai-src="asyntai_script_url" t-att-data-asyntai-id="asyntai_site_id">(function(){var c=document.currentScript;var u=c.getAttribute("data-asyntai-src");var i=c.getAttribute("data-asyntai-id");var l=function(){var s=document.createElement("script");s.src=u;s.async=true;s.setAttribute("data-asyntai-id",i);document.head.appendChild(s)};if(document.readyState==="complete"){l()}else{window.addEventListener("load",l)}})();</script>
             </t>
         </xpath>
     </template>
