@@ -67,8 +67,8 @@ Once connected, you can manage your chatbot settings, review chat logs, and cust
 Email us at hello@asyntai.com or try our chatbot directly at [asyntai.com/](https://asyntai.com/)
 
 
-![Asyntai AI chatbot 1](https://asyntai.com/static/images/ai-chatbot-for-websites-1.png)
-![Asyntai AI chatbot 2](https://asyntai.com/static/images/ai-chatbot-for-websites-2.png)
-![Asyntai AI chatbot 3](https://asyntai.com/static/images/ai-chatbot-for-websites-3.png)
-![Asyntai AI chatbot 4](https://asyntai.com/static/images/ai-chatbot-for-websites-4.png)
-![Asyntai AI chatbot 5](https://asyntai.com/static/images/ai-chatbot-for-websites-5.png)
+![Asyntai AI chatbot 1](static/description/ai-chatbot-for-odoo-1.png)
+![Asyntai AI chatbot 2](static/description/ai-chatbot-for-odoo-2.png)
+![Asyntai AI chatbot 3](static/description/ai-chatbot-for-odoo-3.png)
+![Asyntai AI chatbot 4](static/description/ai-chatbot-for-odoo-4.png)
+![Asyntai AI chatbot 5](static/description/ai-chatbot-for-odoo-5.png)
