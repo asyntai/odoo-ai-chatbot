@@ -25,8 +25,28 @@
                                 <div style="padding:32px;border:1px solid #ddd;border-radius:8px;background:#fff;text-align:center;">
                                     <h3>Asyntai is now enabled</h3>
                                     <p class="asyntai-connected-text" style="font-size:16px;color:#666;">Set up your AI chatbot, review chat logs and more:</p>
-                                    <a class="btn btn-primary" href="https://asyntai.com/dashboard" target="_blank" rel="noopener">Open Asyntai Panel</a>
+                                    <a class="btn btn-primary" role="button" href="https://asyntai.com/dashboard" target="_blank" rel="noopener">Open Asyntai Panel</a>
                                     <p style="margin:20px 0 0;color:#666;"><strong>Tip:</strong> If you want to change how the AI answers, please <a href="https://asyntai.com/dashboard#setup" target="_blank" rel="noopener" style="color:#2563eb;text-decoration:underline;">go here</a>.</p>
+                                </div>
+
+                                <!-- Pages and products -->
+                                <div id="asyntai-share-box" class="asyntai-share-box" style="display:none;">
+                                    <div class="asyntai-share-title">Pages and products</div>
+                                    <p class="asyntai-share-intro">Asyntai reads your published pages, blog posts and products (names, prices and stock) straight from Odoo, so the AI knows them without crawling your site. It only reads. Nothing on your site is changed.</p>
+
+                                    <div id="asyntai-share-on" style="display:none;">
+                                        <div class="asyntai-share-toggle">
+                                            <input type="checkbox" id="asyntai-share"/>
+                                            <span class="o_form_label" id="asyntai-share-label">Let Asyntai read my pages and products</span>
+                                        </div>
+                                        <p id="asyntai-sync-text" class="asyntai-sync-text"></p>
+                                        <a href="#" id="asyntai-sync-now" class="btn btn-secondary btn-sm" role="button">Sync now</a>
+                                    </div>
+
+                                    <div id="asyntai-share-upgrade" style="display:none;">
+                                        <p>Your site was connected with an older version of this module. Connect again once to share your pages and products. Your chatbot and its settings stay as they are.</p>
+                                        <a href="#" id="asyntai-reconnect" class="btn btn-primary btn-sm" role="button">Connect again</a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -36,6 +56,7 @@
                                     <p class="asyntai-intro-text" style="font-size:18px;font-weight:500;color:#333;margin-bottom:16px;">Create a free Asyntai account or sign in to enable the chatbot</p>
                                     <a href="#" id="asyntai-connect-btn" class="btn btn-primary" role="button">Get started</a>
                                     <p style="margin:16px 0 0;color:#666;">If it doesn't work, <a href="#" id="asyntai-fallback-link" target="_blank" rel="noopener" style="color:#2563eb;text-decoration:underline;">open the connect window</a>.</p>
+                                    <p class="asyntai-share-note">When you connect, Asyntai can read your published pages, blog posts and products to answer your visitors. You can switch this off here at any time.</p>
                                 </div>
                             </div>
 

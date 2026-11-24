@@ -102,3 +102,48 @@ p.asyntai-connected-text,
     font-weight: 600 !important;
     color: #666 !important;
 }
+
+.o_asyntai_settings .asyntai-share-box {
+    margin-top: 24px;
+    padding: 24px 32px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    text-align: left;
+}
+
+.o_asyntai_settings .asyntai-share-intro,
+.o_asyntai_settings .asyntai-sync-text {
+    color: #555;
+    font-size: 14px;
+}
+
+.o_asyntai_settings .asyntai-share-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.o_asyntai_settings .asyntai-share-note {
+    margin: 16px 0 0;
+    color: #666;
+    font-size: 13px;
+}
+
+/* Odoo's settings layout makes buttons full width and restyles headings. */
+.o_asyntai_settings #asyntai-sync-now,
+.o_asyntai_settings #asyntai-reconnect {
+    display: inline-block !important;
+    width: auto !important;
+}
+
+.o_asyntai_settings .asyntai-share-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    padding: 0;
+    color: #333;
+}
