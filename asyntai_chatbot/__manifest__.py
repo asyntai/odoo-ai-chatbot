@@ -5,7 +5,7 @@
 
 {
     'name': 'Asyntai - AI Chatbot',
-    'version': '18.0.1.1.0',
+    'version': '18.0.1.1.1',
     'category': 'Website',
     'summary': 'AI assistant / chatbot – Provides instant answers to your website visitors',
     'description': """
@@ -55,11 +55,11 @@ switch sharing off on the settings screen at any time.
         ],
     },
     'images': [
-        'static/description/ai-chatbot-for-websites-1.png',
-        'static/description/ai-chatbot-for-websites-2.png',
-        'static/description/ai-chatbot-for-websites-3.png',
-        'static/description/ai-chatbot-for-websites-4.png',
-        'static/description/ai-chatbot-for-websites-5.png',
+        'static/description/ai-chatbot-for-odoo-1.png',
+        'static/description/ai-chatbot-for-odoo-2.png',
+        'static/description/ai-chatbot-for-odoo-3.png',
+        'static/description/ai-chatbot-for-odoo-4.png',
+        'static/description/ai-chatbot-for-odoo-5.png',
     ],
     'installable': True,
     'auto_install': False,
